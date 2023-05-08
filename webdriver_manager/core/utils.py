@@ -24,13 +24,8 @@ class File(object):
                 r'filename=\s*[\"\']?(?P<filename>[^\s\"\';]+)[\"\'\s]?',
                 self.__stream.headers["content-disposition"],
             )[0]
-        except KeyError:
+        except (KeyError, IndexError):
             filename = urlsplit(self.__stream.request.url).filename
-        except IndexError:
-            filename = f"{self.__temp_name}.exe"
-
-        if '"' in filename:
-            filename = filename.replace('"', "")
 
         return filename
 
