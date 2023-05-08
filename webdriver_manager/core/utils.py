@@ -5,6 +5,7 @@ import re
 import subprocess
 import sys
 
+from hbutils.system import urlsplit
 from tqdm import tqdm
 
 from webdriver_manager.core.archive import Archive
@@ -24,7 +25,7 @@ class File(object):
                 self.__stream.headers["content-disposition"],
             )[0]
         except KeyError:
-            filename = f"{self.__temp_name}.zip"
+            filename = urlsplit(self.__stream.request.url).filename
         except IndexError:
             filename = f"{self.__temp_name}.exe"
 
